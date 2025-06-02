@@ -1,6 +1,6 @@
 # wasm-age
 
-Experimental package to export filippo.io/age scrypt encrypt and decrypt function as a WebAssembly (WASM) binary.
+Experimental package to export the `filippo.io/age` scrypt encrypt and decrypt functions as a WebAssembly (WASM) binary.
 
 ## Experimental
 
