@@ -41,3 +41,38 @@ label {
 	border: none;
 	background-color:transparent;
 }
+
+.feedback {
+	font-style: italic;
+	font-size: .9rem;
+}
+
+@keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+}
+
+@keyframes rotate-ccw {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+}
+
+#encrypt-spinner-svg {
+	display:none;
+	margin-left:.5rem;
+}
+
+#encrypt-spinner {
+        animation: rotate 5s linear infinite;
+        transform-origin: center;
+}
+
+#decrypt-spinner-svg {
+	display:none;
+	margin-left:.5rem;	
+}
+
+#decrypt-spinner {
+        animation: rotate-ccw 5s linear infinite;
+        transform-origin: center;
+}

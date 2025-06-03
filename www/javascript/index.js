@@ -7,7 +7,9 @@ window.addEventListener("load", function load(event){
     var encrypt_button = document.getElementById("encrypt-button");
     var encrypt_result = document.getElementById("encrypt-result");
     var encrypt_result_data = document.getElementById("encrypt-result-data");    
-
+    var encrypt_feedback = document.getElementById("encrypt-feedback");
+    var encrypt_spinner = document.getElementById("encrypt-spinner-svg");
+    
     var encrypt_hide = document.getElementById("encrypt-hide");
     var encrypt_show = document.getElementById("encrypt-show");    
 
@@ -18,22 +20,29 @@ window.addEventListener("load", function load(event){
     var decrypt_button = document.getElementById("decrypt-button");
     var decrypt_result = document.getElementById("decrypt-result");    
     var decrypt_result_data = document.getElementById("decrypt-result-data");
-
+    var decrypt_feedback = document.getElementById("decrypt-feedback");
+    var decrypt_spinner = document.getElementById("decrypt-spinner-svg");
+    
     var decrypt_hide = document.getElementById("decrypt-hide");
     var decrypt_show = document.getElementById("decrypt-show");
     var decrypt_copy = document.getElementById("decrypt-copy");        
     
     encrypt_text.value = "";
     encrypt_key.value = "";
+    encrypt_result_data.innerHTML = "";
     
     decrypt_text.value = "";
     decrypt_key.value = "";        
+    decrypt_result_data.innerHTML = "";
     
     sfomuseum.golang.wasm.fetch("wasm/age.wasm").then((rsp) => {
 
-	let to_encrypt = "";
 	let hide_to_encrypt = true;
 
+	// The data to encrypt
+	let to_encrypt = "";
+
+	// The data that has been decrypted
 	let decrypted_text = "";
 	
 	encrypt_hide.onclick = function(){
@@ -97,9 +106,7 @@ window.addEventListener("load", function load(event){
 	    if (hide_to_encrypt){
 		el.value = "*".repeat(to_encrypt.length);
 	    }
-	    
-	    // console.log("WUT", value, to_encrypt)
-	    
+	    	    
 	};
 
 	encrypt_toggle.onclick = function(){
@@ -124,43 +131,58 @@ window.addEventListener("load", function load(event){
 	
 	encrypt_button.onclick = function(){
 
+	    encrypt_feedback.innerText = "";	    
 	    const key = encrypt_key.value;
 
 	    if (! key){
+		encrypt_feedback.innerText = "Missing key to encrypt message with.";		
 		console.error("Missing key");
 		return false;
 	    }
 
+	    // Remember we are reading the value to encrypt from the data
+	    // that is compiled from the encrypt_text.oninput event.
+	    
 	    const body = to_encrypt;
-	    // const body = encrypt_text.value;
-	    // encrypt_text.value = "";
 	    
 	    if (! body){
+		encrypt_feedback.innerText = "Message (to encrypt) body is empty.";
 		console.error("Missing body");
 		return false;
 	    }
 
 	    encrypt_result_data.innerHTML = "";		
 	    encrypt_result.style.display = "none";
-	    
-	    age_encrypt(key, body).then((rsp) => {
 
-		encrypt_result_data.innerHTML = "";		
-		encrypt_result_data.appendChild(document.createTextNode(rsp));
-		encrypt_result.style.display = "block";
+	    encrypt_spinner.style.display = "inline-block";
+
+	    setTimeout(function(){
 		
-	    }).catch((err) => {
-		console.error("Failed to encrypt body", err);
-	    });
+		age_encrypt(key, body).then((rsp) => {
+		    encrypt_spinner.style.display = "none";
+		    encrypt_result_data.innerHTML = "";		
+		    encrypt_result_data.appendChild(document.createTextNode(rsp));
+		    encrypt_result.style.display = "block";
+		    
+		}).catch((err) => {
+		    encrypt_spinner.style.display = "none";		
+		    encrypt_feedback.innerText = "Failed to encrypt text," + err;				
+		    console.error("Failed to encrypt body", err);
+		});
+		
+	    }, 100);
 	    
 	    return false;
 	};
 
 	decrypt_button.onclick = function(){
 
+	    decrypt_feedback.innerText = "";
+	    
 	    const key = decrypt_key.value;
 
 	    if (! key){
+		decrypt_feedback.innerText = "Missing key to encrypt message with.";				
 		console.error("Missing key");
 		return false;
 	    }
@@ -170,23 +192,32 @@ window.addEventListener("load", function load(event){
 	    decrypt_result_data.innerHTML = "";		
 	    decrypt_result.style.display = "none";
 
-	    age_decrypt(key, body).then((rsp) => {
+	    decrypt_spinner.style.display = "inline-block";
 
-		decrypted_text = rsp;
+	    setTimeout(function(){
 		
-		decrypt_result_data.innerHTML = "";		
-		decrypt_result_data.appendChild(document.createTextNode("****"));
-		decrypt_result.style.display = "block";
-
-		decrypt_show.style.display = "inline-block";
-
-		if (navigator.clipboard){
-		    decrypt_copy.style.display = "inline-block";
-		}
+		age_decrypt(key, body).then((rsp) => {
+		    
+		    decrypt_spinner.style.display = "none";		
+		    decrypted_text = rsp;
+		    
+		    decrypt_result_data.innerHTML = "";		
+		    decrypt_result_data.appendChild(document.createTextNode("****"));
+		    decrypt_result.style.display = "block";
+		    
+		    decrypt_show.style.display = "inline-block";
+		    
+		    if (navigator.clipboard){
+			decrypt_copy.style.display = "inline-block";
+		    }
+		    
+		}).catch((err) => {
+		    decrypt_spinner.style.display = "none";			
+		    decrypt_feedback.innerText = "Failed to decrypt message, " + err;
+		    console.error("Failed to decrypt body", err);
+		});
 		
-	    }).catch((err) => {
-		console.error("Failed to decrypt body", err);
-	    });
+	    }, 100);
 	    
 	    return false;
 	};
@@ -196,8 +227,14 @@ window.addEventListener("load", function load(event){
 	    decrypt_copy.onclick = function(){
 		
 		navigator.clipboard.writeText(decrypted_text).then((rsp) => {
-		    console.log("OK");
+		    decrypt_feedback.innerText = "Decrypted message copied to clipboard.";
+
+		    setTimeout(function(){
+			decrypt_feedback.innerText = "";
+		    }, 3000);
+		    
 		}).catch((err) => {
+		    decrypt_feedback.innerText = "Failed to copy message to clipboard, " + err;		    
 		    console.error("sad", err);
 		});
 	    }
@@ -212,6 +249,7 @@ window.addEventListener("load", function load(event){
 	encrypt_show.style.display = "inline-block";
 	
     }).catch((err) => {
+	alert("Failed to load age WebAssembly functions");
 	console.error("Failed to load WASMbinary", err);
         return;
     });
