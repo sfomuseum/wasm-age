@@ -7,35 +7,47 @@
 	<link rel="stylesheet" type="text/css" href="css/index.css" />
     </head>
     <body>
-	<div class="grid">
-	    <div>
-		<form class="form">
+	<nav class="navbar">
+	    <div class="container-fluid">
+		<form class="d-flex" role="search">
+		    <button class="btn btn-sm" disabled="disabled" id="encrypt-toggle">Encrypt</button>
+		    <button class="btn btn-sm" disabled="disabled" id="decrypt-toggle">Decrypt</button>
+		</form>
+	    </div>
+	</nav>
+	<div class="row">
+	<div class="container">
+	    <div class="card wrapper" id="encrypt-wrapper">
+		<h3 class="card-header">Encrypt</h3>
+		<form class="form card-body">
 		    <div class="mb-3">
 			<label class="form-label" for="encrypt">Text to encrypt</label>
-			<textarea id="encrypt" class="form-control" rows="5"></textarea>
+			<textarea id="encrypt" class="form-control" rows="5" required></textarea>
 		    </div>
 		    <div class="mb-3">
 			<label class="form-label" for="encrypt-key">Key to encrypt text</label>
-			<input type="password" id="encrypt-key" value="" class="form-control" />
+			<input type="password" id="encrypt-key" value="" class="form-control" required />
 		    </div>		    
 		    <button id="encrypt-button" type="submit" class="btn btn-primary" disabled="disabled">Encrypt</button>
 		</form>
-		<div id="encrypt-result" class="result"></div>
+		<div id="encrypt-result" class="card-footer result"></div>
 	    </div>
-	    <div>
-		<form class="form">
+	    <div class="card wrapper" id="decrypt-wrapper">
+		<h3 class="card-header">Decrypt</h3>		
+		<form class="form card-body">
 		    <div class="mb-3">
 			<label class="form-label" for="decrypt">Text to decrypt</label>
-			<textarea id="decrypt" class="form-control" rows="5"></textarea>
+			<textarea id="decrypt" class="form-control" rows="5" required></textarea>
 		    </div>
 		    <div class="mb-3">
 			<label class="form-label" for="decrypt-key">Key to decrypt text</label>
-			<input type="password" id="decrypt-key" value="" class="form-control" />
+			<input type="password" id="decrypt-key" value="" class="form-control" required />
 		    </div>		    
 		    <button id="decrypt-button" type="submit" disabled="disabled" class="btn btn-primary">Decrypt</button>
 		</form>
-		<div id="decrypt-result" class="result"></div>		
+		<div id="decrypt-result" class="result card-footer"></div>		
 	    </div>
+	</div>
 	</div>
     </body>
     <script src="javascript/sfomuseum.golang.wasm.bundle.js"></script>	

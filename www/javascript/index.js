@@ -1,10 +1,14 @@
 window.addEventListener("load", function load(event){
 
+    var encrypt_wrapper = document.getElementById("encrypt-wrapper");
+    var encrypt_toggle = document.getElementById("encrypt-toggle");        
     var encrypt_text = document.getElementById("encrypt");
     var encrypt_key = document.getElementById("encrypt-key");    
     var encrypt_button = document.getElementById("encrypt-button");
     var encrypt_result = document.getElementById("encrypt-result");
 
+    var decrypt_wrapper = document.getElementById("decrypt-wrapper");
+    var decrypt_toggle = document.getElementById("decrypt-toggle");            
     var decrypt_text = document.getElementById("decrypt");
     var decrypt_key = document.getElementById("decrypt-key");        
     var decrypt_button = document.getElementById("decrypt-button");
@@ -18,6 +22,26 @@ window.addEventListener("load", function load(event){
     
     sfomuseum.golang.wasm.fetch("wasm/age.wasm").then((rsp) => {
 
+	encrypt_toggle.onclick = function(){
+
+	    encrypt_toggle.setAttribute("disabled", "disabled");
+	    encrypt_wrapper.style.display = "block";
+	    
+	    decrypt_toggle.removeAttribute("disabled");
+	    decrypt_wrapper.style.display = "none";
+	    return false	    
+	};
+
+	decrypt_toggle.onclick = function(){
+
+	    decrypt_toggle.setAttribute("disabled", "disabled");
+	    decrypt_wrapper.style.display = "block";
+	    
+	    encrypt_toggle.removeAttribute("disabled");
+	    encrypt_wrapper.style.display = "none";
+	    return false	    
+	};
+	
 	encrypt_button.onclick = function(){
 
 	    const key = encrypt_key.value;
@@ -28,7 +52,13 @@ window.addEventListener("load", function load(event){
 	    }
 
 	    const body = encrypt_text.value;
-
+	    encrypt_text.value = "";
+	    
+	    if (! body){
+		console.error("Missing body");
+		return false;
+	    }
+	    
 	    age_encrypt(key, body).then((rsp) => {
 
 		encrypt_result.innerHTML = "";		
@@ -70,6 +100,9 @@ window.addEventListener("load", function load(event){
 	
 	encrypt_button.removeAttribute("disabled");
 	decrypt_button.removeAttribute("disabled");
+
+	encrypt_wrapper.style.display = "block";
+	decrypt_toggle.removeAttribute("disabled");
 	
     }).catch((err) => {
 	console.error("Failed to load WASMbinary", err);

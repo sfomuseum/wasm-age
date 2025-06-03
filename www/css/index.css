@@ -1,18 +1,18 @@
-body {
-	margin: 1rem;
+.wrapper {
+	display:none;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns:1fr 1fr 1fr;
-    gap: 25px 25px;
-
+.row {
+	margin-left:.5rem;
+	margin-right: .5rem;
 }
 
-@media (max-width: 640px) {
+nav {
+	margin-left:.5rem;
+	margin-right: .5rem;
+}
 
-    .grid {
-	grid-template-columns: 1fr;
-    }
-
-	}
+.card,.card-header,.card-footer {
+	border: none;
+	background-color:transparent;
+}
