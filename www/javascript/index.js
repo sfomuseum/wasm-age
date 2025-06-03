@@ -18,6 +18,9 @@ window.addEventListener("load", function load(event){
     var decrypt_button = document.getElementById("decrypt-button");
     var decrypt_result = document.getElementById("decrypt-result");    
     var decrypt_result_data = document.getElementById("decrypt-result-data");
+
+    var decrypt_hide = document.getElementById("decrypt-hide");
+    var decrypt_show = document.getElementById("decrypt-show");    
     
     encrypt_text.value = "";
     encrypt_key.value = "";
