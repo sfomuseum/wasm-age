@@ -7,6 +7,9 @@ window.addEventListener("load", function load(event){
     var encrypt_button = document.getElementById("encrypt-button");
     var encrypt_result = document.getElementById("encrypt-result");
 
+    var encrypt_hide = document.getElementById("encrypt-hide");
+    var encrypt_show = document.getElementById("encrypt-show");    
+
     var decrypt_wrapper = document.getElementById("decrypt-wrapper");
     var decrypt_toggle = document.getElementById("decrypt-toggle");            
     var decrypt_text = document.getElementById("decrypt");
@@ -21,6 +24,54 @@ window.addEventListener("load", function load(event){
     decrypt_key.value = "";        
     
     sfomuseum.golang.wasm.fetch("wasm/age.wasm").then((rsp) => {
+
+	let to_encrypt = "";
+	let hide_to_encrypt = true;
+
+	encrypt_hide.onclick = function(){
+
+	    to_encrypt = encrypt_text.value;
+	    encrypt_text.value = "*".repeat(to_encrypt.length);
+	    hide_to_encrypt = true;
+	    
+	    encrypt_hide.style.display = "none";
+	    encrypt_show.style.display = "inline-block";
+	};
+
+	encrypt_show.onclick = function(){
+
+	    hide_to_encrypt = false;	    
+	    encrypt_text.value = to_encrypt;
+	    to_encrypt = "";
+	    
+	    encrypt_hide.style.display = "inline-block";
+	    encrypt_show.style.display = "none";
+	};
+	
+	encrypt_text.oninput = function(ev){
+	    
+	    const el = ev.target;
+	    const value = el.value;
+
+	    if (! value.length){
+		to_encrypt = "";
+		return;
+	    }
+
+	    // Deal with deleted text here...
+	    
+	    const idx = to_encrypt.length;
+	    const update = value.substr(idx);
+
+	    to_encrypt += update;
+
+	    if (hide_to_encrypt){
+		el.value = "*".repeat(to_encrypt.length);
+	    }
+	    
+	    console.log("WUT", value, update, to_encrypt)
+	    
+	};
 
 	encrypt_toggle.onclick = function(){
 
@@ -51,8 +102,9 @@ window.addEventListener("load", function load(event){
 		return false;
 	    }
 
-	    const body = encrypt_text.value;
-	    encrypt_text.value = "";
+	    const body = to_encrypt;
+	    // const body = encrypt_text.value;
+	    // encrypt_text.value = "";
 	    
 	    if (! body){
 		console.error("Missing body");
@@ -103,6 +155,8 @@ window.addEventListener("load", function load(event){
 
 	encrypt_wrapper.style.display = "block";
 	decrypt_toggle.removeAttribute("disabled");
+
+	encrypt_show.style.display = "inline-block";
 	
     }).catch((err) => {
 	console.error("Failed to load WASMbinary", err);

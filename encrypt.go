@@ -1,15 +1,15 @@
 package age
 
 import (
-	"io"
 	"fmt"
-	
+	"io"
+
 	"filippo.io/age"
-	"filippo.io/age/armor"	
+	"filippo.io/age/armor"
 )
 
 func Encrypt(key string, r io.Reader, wr io.WriteCloser) error {
-	
+
 	rcpt, err := age.NewScryptRecipient(key)
 
 	if err != nil {
@@ -17,8 +17,8 @@ func Encrypt(key string, r io.Reader, wr io.WriteCloser) error {
 	}
 
 	armor_wr := armor.NewWriter(wr)
-	
-	age_wr, err :=  age.Encrypt(armor_wr, rcpt)
+
+	age_wr, err := age.Encrypt(armor_wr, rcpt)
 
 	if err != nil {
 		return fmt.Errorf("Failed to encrypt, %w", err)
@@ -41,6 +41,6 @@ func Encrypt(key string, r io.Reader, wr io.WriteCloser) error {
 	if err != nil {
 		return fmt.Errorf("Failed to close armor after writing, %w", err)
 	}
-	
+
 	return nil
 }
