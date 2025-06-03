@@ -6,6 +6,10 @@
 	display:none;
 }
 
+.hide-show svg {
+	display:inline-block;
+}
+
 .result {
 	display:none;
 }

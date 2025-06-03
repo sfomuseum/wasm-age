@@ -20,7 +20,8 @@ window.addEventListener("load", function load(event){
     var decrypt_result_data = document.getElementById("decrypt-result-data");
 
     var decrypt_hide = document.getElementById("decrypt-hide");
-    var decrypt_show = document.getElementById("decrypt-show");    
+    var decrypt_show = document.getElementById("decrypt-show");
+    var decrypt_copy = document.getElementById("decrypt-copy");        
     
     encrypt_text.value = "";
     encrypt_key.value = "";
@@ -33,6 +34,8 @@ window.addEventListener("load", function load(event){
 	let to_encrypt = "";
 	let hide_to_encrypt = true;
 
+	let decrypted_text = "";
+	
 	encrypt_hide.onclick = function(){
 
 	    to_encrypt = encrypt_text.value;
@@ -51,6 +54,20 @@ window.addEventListener("load", function load(event){
 	    
 	    encrypt_hide.style.display = "inline-block";
 	    encrypt_show.style.display = "none";
+	};
+
+	decrypt_hide.onclick = function(){
+	    decrypt_hide.style.display = "none";
+	    decrypt_show.style.display = "inline-block";	    
+	    decrypt_result_data.innerHTML = "";
+	    decrypt_result_data.appendChild(document.createTextNode("****"));
+	};
+
+	decrypt_show.onclick = function(){
+	    decrypt_hide.style.display = "inline-block";
+	    decrypt_show.style.display = "none";	    	    
+	    decrypt_result_data.innerHTML = "";
+	    decrypt_result_data.appendChild(document.createTextNode(decrypted_text));
 	};
 	
 	encrypt_text.oninput = function(ev){
@@ -155,9 +172,17 @@ window.addEventListener("load", function load(event){
 
 	    age_decrypt(key, body).then((rsp) => {
 
+		decrypted_text = rsp;
+		
 		decrypt_result_data.innerHTML = "";		
-		decrypt_result_data.appendChild(document.createTextNode(rsp));
+		decrypt_result_data.appendChild(document.createTextNode("****"));
 		decrypt_result.style.display = "block";
+
+		decrypt_show.style.display = "inline-block";
+
+		if (navigator.clipboard){
+		    decrypt_copy.style.display = "inline-block";
+		}
 		
 	    }).catch((err) => {
 		console.error("Failed to decrypt body", err);
@@ -165,6 +190,18 @@ window.addEventListener("load", function load(event){
 	    
 	    return false;
 	};
+
+	if (navigator.clipboard){
+
+	    decrypt_copy.onclick = function(){
+		
+		navigator.clipboard.writeText(decrypted_text).then((rsp) => {
+		    console.log("OK");
+		}).catch((err) => {
+		    console.error("sad", err);
+		});
+	    }
+	}
 	
 	encrypt_button.removeAttribute("disabled");
 	decrypt_button.removeAttribute("disabled");
