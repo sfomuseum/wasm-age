@@ -12,7 +12,8 @@ window.addEventListener("load", function load(event){
     
     var encrypt_hide = document.getElementById("encrypt-hide");
     var encrypt_show = document.getElementById("encrypt-show");    
-
+    var encrypt_copy = document.getElementById("encrypt-copy");
+    
     var decrypt_wrapper = document.getElementById("decrypt-wrapper");
     var decrypt_toggle = document.getElementById("decrypt-toggle");            
     var decrypt_text = document.getElementById("decrypt");
@@ -42,6 +43,8 @@ window.addEventListener("load", function load(event){
 	// The data to encrypt
 	let to_encrypt = "";
 
+	let encrypted_text = "";
+	
 	// The data that has been decrypted
 	let decrypted_text = "";
 	
@@ -131,7 +134,9 @@ window.addEventListener("load", function load(event){
 	
 	encrypt_button.onclick = function(){
 
-	    encrypt_feedback.innerText = "";	    
+	    encrypt_feedback.innerText = "";
+	    encrypted_text = "";
+	    
 	    const key = encrypt_key.value;
 
 	    if (! key){
@@ -153,16 +158,24 @@ window.addEventListener("load", function load(event){
 
 	    encrypt_result_data.innerHTML = "";		
 	    encrypt_result.style.display = "none";
-
+	    encrypt_copy.style.display = "none";
+	    
 	    encrypt_spinner.style.display = "inline-block";
 
 	    setTimeout(function(){
 		
 		age_encrypt(key, body).then((rsp) => {
+
+		    encrypted_text = rsp;
+		    
 		    encrypt_spinner.style.display = "none";
 		    encrypt_result_data.innerHTML = "";		
-		    encrypt_result_data.appendChild(document.createTextNode(rsp));
+		    encrypt_result_data.appendChild(document.createTextNode(encrypted_text));
 		    encrypt_result.style.display = "block";
+
+		    if (navigator.clipboard){
+			encrypt_copy.style.display = "inline-block";
+		    }
 		    
 		}).catch((err) => {
 		    encrypt_spinner.style.display = "none";		
@@ -175,9 +188,28 @@ window.addEventListener("load", function load(event){
 	    return false;
 	};
 
+	if (navigator.clipboard){
+
+	    encrypt_copy.onclick = function(){
+		
+		navigator.clipboard.writeText(encrypted_text).then((rsp) => {
+		    encrypt_feedback.innerText = "Encrypted message copied to clipboard.";
+
+		    setTimeout(function(){
+			encrypt_feedback.innerText = "";
+		    }, 3000);
+		    
+		}).catch((err) => {
+		    encrypt_feedback.innerText = "Failed to copy message to clipboard, " + err;		    
+		    console.error("sad", err);
+		});
+	    }
+	}
+	
 	decrypt_button.onclick = function(){
 
 	    decrypt_feedback.innerText = "";
+	    decrypted_text = "";
 	    
 	    const key = decrypt_key.value;
 
@@ -191,7 +223,8 @@ window.addEventListener("load", function load(event){
 
 	    decrypt_result_data.innerHTML = "";		
 	    decrypt_result.style.display = "none";
-
+	    decrypt_copy.style.display = "none";
+	    
 	    decrypt_spinner.style.display = "inline-block";
 
 	    setTimeout(function(){
