@@ -6,6 +6,10 @@
 	display:none;
 }
 
+.result {
+	display:none;
+}
+
 .row {
 	margin-left:.5rem;
 	margin-right: .5rem;
@@ -14,6 +18,19 @@
 nav {
 	margin-left:1rem;
 	margin-right:1rem;
+}
+
+pre {
+	overflow:scroll;
+	border: solid thin;
+	margin-top:1rem;
+	padding: .5rem;
+	background-color: #ccc;
+	font-family:monospace;
+}
+
+label {
+	font-weight:500;
 }
 
 .card,.card-header,.card-footer {

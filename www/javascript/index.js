@@ -6,6 +6,7 @@ window.addEventListener("load", function load(event){
     var encrypt_key = document.getElementById("encrypt-key");    
     var encrypt_button = document.getElementById("encrypt-button");
     var encrypt_result = document.getElementById("encrypt-result");
+    var encrypt_result_data = document.getElementById("encrypt-result-data");    
 
     var encrypt_hide = document.getElementById("encrypt-hide");
     var encrypt_show = document.getElementById("encrypt-show");    
@@ -16,7 +17,8 @@ window.addEventListener("load", function load(event){
     var decrypt_key = document.getElementById("decrypt-key");        
     var decrypt_button = document.getElementById("decrypt-button");
     var decrypt_result = document.getElementById("decrypt-result");    
-
+    var decrypt_result_data = document.getElementById("decrypt-result-data");
+    
     encrypt_text.value = "";
     encrypt_key.value = "";
     
@@ -76,7 +78,7 @@ window.addEventListener("load", function load(event){
 		el.value = "*".repeat(to_encrypt.length);
 	    }
 	    
-	    console.log("WUT", value, to_encrypt)
+	    // console.log("WUT", value, to_encrypt)
 	    
 	};
 
@@ -117,13 +119,15 @@ window.addEventListener("load", function load(event){
 		console.error("Missing body");
 		return false;
 	    }
+
+	    encrypt_result_data.innerHTML = "";		
+	    encrypt_result.style.display = "none";
 	    
 	    age_encrypt(key, body).then((rsp) => {
 
-		encrypt_result.innerHTML = "";		
-		var pre = document.createElement("pre");
-		pre.appendChild(document.createTextNode(rsp));
-		encrypt_result.appendChild(pre);
+		encrypt_result_data.innerHTML = "";		
+		encrypt_result_data.appendChild(document.createTextNode(rsp));
+		encrypt_result.style.display = "block";
 		
 	    }).catch((err) => {
 		console.error("Failed to encrypt body", err);
@@ -143,12 +147,14 @@ window.addEventListener("load", function load(event){
 	    
 	    const body = decrypt_text.value;
 
+	    decrypt_result_data.innerHTML = "";		
+	    decrypt_result.style.display = "none";
+
 	    age_decrypt(key, body).then((rsp) => {
 
-		decrypt_result.innerHTML = "";		
-		var pre = document.createElement("pre");
-		pre.appendChild(document.createTextNode(rsp));
-		decrypt_result.appendChild(pre);
+		decrypt_result_data.innerHTML = "";		
+		decrypt_result_data.appendChild(document.createTextNode(rsp));
+		decrypt_result.style.display = "block";
 		
 	    }).catch((err) => {
 		console.error("Failed to decrypt body", err);
