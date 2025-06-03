@@ -53,23 +53,30 @@ window.addEventListener("load", function load(event){
 	    const el = ev.target;
 	    const value = el.value;
 
-	    if (! value.length){
+	    const prev_len = to_encrypt.length;
+	    const current_len = value.length;
+	    
+	    if (! current_len){
 		to_encrypt = "";
 		return;
 	    }
 
-	    // Deal with deleted text here...
+	    if (current_len == prev_len){
+		return;
+	    }
+
+	    if (current_len < prev_len){
+		to_encrypt = to_encrypt.substr(0, current_len);	    
+	    } else {
+		const update = value.substr(prev_len);
+		to_encrypt += update;
+	    }
 	    
-	    const idx = to_encrypt.length;
-	    const update = value.substr(idx);
-
-	    to_encrypt += update;
-
 	    if (hide_to_encrypt){
 		el.value = "*".repeat(to_encrypt.length);
 	    }
 	    
-	    console.log("WUT", value, update, to_encrypt)
+	    console.log("WUT", value, to_encrypt)
 	    
 	};
 
