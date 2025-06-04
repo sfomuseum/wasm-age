@@ -6,13 +6,15 @@ window.addEventListener("load", function load(event){
     var encrypt_key = document.getElementById("encrypt-key");    
     var encrypt_button = document.getElementById("encrypt-button");
     var encrypt_result = document.getElementById("encrypt-result");
-    var encrypt_result_data = document.getElementById("encrypt-result-data");    
+    var encrypt_result_data = document.getElementById("encrypt-result-data");
+    var encrypt_result_qr = document.getElementById("encrypt-result-qr");        
     var encrypt_feedback = document.getElementById("encrypt-feedback");
     var encrypt_spinner = document.getElementById("encrypt-spinner-svg");
-    
+
     var encrypt_hide = document.getElementById("encrypt-hide");
     var encrypt_show = document.getElementById("encrypt-show");    
     var encrypt_copy = document.getElementById("encrypt-copy");
+    var encrypt_qr = document.getElementById("encrypt-qr");
     
     var decrypt_wrapper = document.getElementById("decrypt-wrapper");
     var decrypt_toggle = document.getElementById("decrypt-toggle");            
@@ -27,6 +29,7 @@ window.addEventListener("load", function load(event){
     var decrypt_hide = document.getElementById("decrypt-hide");
     var decrypt_show = document.getElementById("decrypt-show");
     var decrypt_copy = document.getElementById("decrypt-copy");        
+    var decrypt_qr = document.getElementById("decrypt-qr");        
     
     encrypt_text.value = "";
     encrypt_key.value = "";
@@ -47,6 +50,27 @@ window.addEventListener("load", function load(event){
 	
 	// The data that has been decrypted
 	let decrypted_text = "";
+
+	encrypt_qr.onclick = function(){
+
+	    try {
+
+		var qrcode = new QRCode(encrypt_result_qr, {
+		    width : 275,
+		    height : 275
+		});
+
+		qrcode.makeCode(encrypted_text);
+		
+	    } catch (err) {
+		console.log("Failed to generate QR code", err);
+		encrypt_feedback.innerText = "Failed to generate QR code, " + err;
+	    }
+	};
+
+	decrypt_qr.onclick = function(){
+	    console.error("Not implemented")
+	};
 	
 	encrypt_hide.onclick = function(){
 
@@ -156,9 +180,11 @@ window.addEventListener("load", function load(event){
 		return false;
 	    }
 
-	    encrypt_result_data.innerHTML = "";		
+	    encrypt_result_data.innerHTML = "";
+	    encrypt_result_qr.innerHTML = "";			    
 	    encrypt_result.style.display = "none";
 	    encrypt_copy.style.display = "none";
+	    encrypt_qr.style.display = "none";	    
 	    
 	    encrypt_spinner.style.display = "inline-block";
 
@@ -176,6 +202,8 @@ window.addEventListener("load", function load(event){
 		    if (navigator.clipboard){
 			encrypt_copy.style.display = "inline-block";
 		    }
+
+		    encrypt_qr.style.display = "inline-block";
 		    
 		}).catch((err) => {
 		    encrypt_spinner.style.display = "none";		

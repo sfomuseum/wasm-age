@@ -38,3 +38,4 @@ Point a web server at the [www](www) folder and then load it in your web browser
 
 * https://github.com/FiloSottile/age
 * https://github.com/sfomuseum/js-sfomuseum-golang-wasm
+* https://github.com/davidshimjs/qrcodejs
