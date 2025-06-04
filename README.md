@@ -35,7 +35,10 @@ The default tab allows you to encrypt arbitrary text data. By default the text e
 
 ![](docs/images/wasm-age-encrypt-hidden.png)
 
-If you click on the [EYEBALL] icon you can see the text you've entered:
+If you click on the <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg> icon you can see the text you've entered:
 
 ![](docs/images/wasm-age-encrypt-plaintext.png)
 
@@ -57,11 +60,9 @@ If your web browser supports the [Clipboard API](https://developer.mozilla.org/e
 
 ![](docs/images/wasm-age-decrypt.png)
 
-Clicking the "Decrypt" button (at the top of the page) will display the new tab for decypted `age`-encoded data.
+Clicking the "Decrypt" button (at the top of the page) will display the new tab for decypted `age`-encoded data. 
 
 ![](docs/images/wasm-age-decrypt-qr.png)
-
-You can enter the text manually (or by copy-pasting) or you can also click the [SCAN] icon to launch an interactive camera for scanning QR codes.
 
 Once the camera finds a QR code it will outline it in the image and write its data back to the default input form.
 
@@ -69,8 +70,8 @@ When you click the `Decrypt` button the data will be decrypted using the `age` W
 
 ![](docs/images/wasm-age-decrypted.png)
 
-By default the unencypted data is obscured but if you click the [EYEBALL] icon you can see the unencypted text.
 
+By default the unencypted data is obscured but if you click the [EYEBALL] icon you can see the unencypted text.
 ![](docs/images/wasm-age-decrypted-plaintext.png)
 
 _Click the [NO-EYEBALL] icon to hide the text again._
