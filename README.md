@@ -71,8 +71,9 @@ If you click the [SCAN-QR-CODE] icon a new dialog window will be open showing yo
 
 When you click the `Decrypt` button the data will be decrypted using the `age` WebAssembly binary and the results will be printed to the screen.
 
-By default the unencypted data is obscured but if you click the [EYEBALL] icon you can see the unencypted text.
 ![](docs/images/wasm-age-decrypted-plaintext.png)
+
+By default the unencypted data is obscured but if you click the [EYEBALL] icon you can see the unencypted text.
 
 _Click the [NO-EYEBALL] icon to hide the text again._
 
