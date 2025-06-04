@@ -39,27 +39,31 @@ If you click on the [EYEBALL] icon you can see the text you've entered:
 
 ![](docs/images/wasm-age-encrypt-plaintext.png)
 
+_Click the [NO-EYEBALL] icon to hide the text again._
+
 Add a password (key) to encrypt the content.
 
 ![](docs/images/wasm-age-encrypt-key.png)
 
-When you click the `Encrypt` button you're text will be encrypted using `age` WebAssembly binary and the result will be printed to the screen.
+When you click the `Encrypt` button your text will be encrypted using `age` WebAssembly binary and the result will be printed to the screen.
 
 ![](docs/images/wasm-age-encrypted.png)
-
-If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a [CLIPBOARD] icon which will allow you to copy the encrypted data to your computer's clipboard.
 
 If you click the [QR] icon the encrypted content will be encoded in a QR code.
 
 ![](docs/images/wasm-age-encrypted-qr.png)
 
-Clicking the "Decrypt" button (at the top of the page) will display the new tab for decypted `age`-encoded data. You can enter the text manually (or by copy-pasting) or you can also click the [SCAN] icon to launch an interactive camera for scanning QR codes.
+If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a [CLIPBOARD] icon which will allow you to copy the encrypted data to your computer's clipboard.
 
 ![](docs/images/wasm-age-decrypt.png)
 
-Once the camera finds a QR code it will outline it in the image and write its data back to the default input form.
+Clicking the "Decrypt" button (at the top of the page) will display the new tab for decypted `age`-encoded data.
 
 ![](docs/images/wasm-age-decrypt-qr.png)
+
+You can enter the text manually (or by copy-pasting) or you can also click the [SCAN] icon to launch an interactive camera for scanning QR codes.
+
+Once the camera finds a QR code it will outline it in the image and write its data back to the default input form.
 
 When you click the `Decrypt` button the data will be decrypted using the `age` WebAssembly binary and the results will be printed to the screen.
 
@@ -68,6 +72,8 @@ When you click the `Decrypt` button the data will be decrypted using the `age` W
 By default the unencypted data is obscured but if you click the [EYEBALL] icon you can see the unencypted text.
 
 ![](docs/images/wasm-age-decrypted-plaintext.png)
+
+_Click the [NO-EYEBALL] icon to hide the text again._
 
 If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a [CLIPBOARD] icon which will allow you to copy the unencrypted data to your computer's clipboard.
 
