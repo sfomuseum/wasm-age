@@ -20,19 +20,56 @@ GOOS=js GOARCH=wasm \
 
 ## Example
 
-Point a web server at the [www](www) folder and then load it in your web browser.
+Point a web server at the [www](www) folder and then load it in your web browser. I like to use the `fileserver` tool in the [aaronland/go-http-fileserver]() package mostly because I wrote but, really, any web server will do. For example:
 
-![](docs/images/wasm-age-encrypt.png)
+```
+$> fileserver -root www
+2025/06/04 10:36:23 Serving www and listening for requests on http://localhost:8080
+```
+
+And then when you open your web browser to `http://localhost:8080` you see something like this:
+
+![](docs/images/wasm-age-launch.png)
+
+The default tab allows you to encrypt arbitrary text data. By default the text entered in to the form is hidden:
+
+![](docs/images/wasm-age-encrypt-hidden.png)
+
+If you click on the [EYEBALL] icon you can see the text you've entered:
 
 ![](docs/images/wasm-age-encrypt-plaintext.png)
 
-![](docs/images/wasm-age-encrypt-encrypted.png)
+Add a password (key) to encrypt the content.
+
+![](docs/images/wasm-age-encrypt-key.png)
+
+When you click the `Encrypt` button you're text will be encrypted using `age` WebAssembly binary and the result will be printed to the screen.
+
+![](docs/images/wasm-age-encrypted.png)
+
+If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a [CLIPBOARD] icon which will allow you to copy the encrypted data to your computer's clipboard.
+
+If you click the [QR] icon the encrypted content will be encoded in a QR code.
+
+![](docs/images/wasm-age-encrypted-qr.png)
+
+Clicking the "Decrypt" button (at the top of the page) will display the new tab for decypted `age`-encoded data. You can enter the text manually (or by copy-pasting) or you can also click the [SCAN] icon to launch an interactive camera for scanning QR codes.
 
 ![](docs/images/wasm-age-decrypt.png)
 
+Once the camera finds a QR code it will outline it in the image and write its data back to the default input form.
+
+![](docs/images/wasm-age-decrypt-qr.png)
+
+When you click the `Decrypt` button the data will be decrypted using the `age` WebAssembly binary and the results will be printed to the screen.
+
 ![](docs/images/wasm-age-decrypted.png)
 
+By default the unencypted data is obscured but if you click the [EYEBALL] icon you can see the unencypted text.
+
 ![](docs/images/wasm-age-decrypted-plaintext.png)
+
+If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a [CLIPBOARD] icon which will allow you to copy the unencrypted data to your computer's clipboard.
 
 ## See also
 
