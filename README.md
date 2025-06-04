@@ -22,6 +22,18 @@ GOOS=js GOARCH=wasm \
 
 Point a web server at the [www](www) folder and then load it in your web browser.
 
+![](docs/images/wasm-age-encrypt.png)
+
+![](docs/images/wasm-age-encrypt-plaintext.png)
+
+![](docs/images/wasm-age-encrypt-encrypted.png)
+
+![](docs/images/wasm-age-decrypt.png)
+
+![](docs/images/wasm-age-decrypted.png)
+
+![](docs/images/wasm-age-decrypted-plaintext.png)
+
 ## See also
 
 * https://github.com/FiloSottile/age
