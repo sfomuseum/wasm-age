@@ -6,13 +6,15 @@ window.addEventListener("load", function load(event){
     var encrypt_key = document.getElementById("encrypt-key");    
     var encrypt_button = document.getElementById("encrypt-button");
     var encrypt_result = document.getElementById("encrypt-result");
-    var encrypt_result_data = document.getElementById("encrypt-result-data");    
+    var encrypt_result_data = document.getElementById("encrypt-result-data");
+    var encrypt_result_qr = document.getElementById("encrypt-result-qr");        
     var encrypt_feedback = document.getElementById("encrypt-feedback");
     var encrypt_spinner = document.getElementById("encrypt-spinner-svg");
-    
+
     var encrypt_hide = document.getElementById("encrypt-hide");
     var encrypt_show = document.getElementById("encrypt-show");    
     var encrypt_copy = document.getElementById("encrypt-copy");
+    var encrypt_qr = document.getElementById("encrypt-qr");
     
     var decrypt_wrapper = document.getElementById("decrypt-wrapper");
     var decrypt_toggle = document.getElementById("decrypt-toggle");            
@@ -27,7 +29,13 @@ window.addEventListener("load", function load(event){
     var decrypt_hide = document.getElementById("decrypt-hide");
     var decrypt_show = document.getElementById("decrypt-show");
     var decrypt_copy = document.getElementById("decrypt-copy");        
+    var decrypt_qr = document.getElementById("decrypt-qr");        
+
+    var decrypt_qr_video;
     
+    var decrypt_qr_canvas;
+    var decrypt_qr_canvas_el;
+
     encrypt_text.value = "";
     encrypt_key.value = "";
     encrypt_result_data.innerHTML = "";
@@ -47,6 +55,134 @@ window.addEventListener("load", function load(event){
 	
 	// The data that has been decrypted
 	let decrypted_text = "";
+
+	encrypt_qr.onclick = function(){
+
+	    try {
+
+		var qrcode = new QRCode(encrypt_result_qr, {
+		    width : 275,
+		    height : 275
+		});
+
+		qrcode.makeCode(encrypted_text);
+		
+	    } catch (err) {
+		console.log("Failed to generate QR code", err);
+		encrypt_feedback.innerText = "Failed to generate QR code, " + err;
+	    }
+	};
+
+	decrypt_qr_tick = function(){
+	    
+	    if (!decrypt_qr_video){
+		return;
+	    }
+
+	    // view-source:https://cozmo.github.io/jsQR/
+	    
+	    if (decrypt_qr_video.readyState === decrypt_qr_video.HAVE_ENOUGH_DATA) {
+		decrypt_qr_canvas_el.height = decrypt_qr_video.videoHeight;
+		decrypt_qr_canvas_el.width = decrypt_qr_video.videoWidth;
+		decrypt_qr_canvas.drawImage(decrypt_qr_video, 0, 0, decrypt_qr_canvas_el.width, decrypt_qr_canvas_el.height);
+
+		var im = decrypt_qr_canvas.getImageData(0, 0, decrypt_qr_canvas_el.width, decrypt_qr_canvas_el.height);
+		
+		var code = jsQR(im.data, im.width, im.height, {
+		    inversionAttempts: "dontInvert",
+		});
+
+		if (code){
+
+		    drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
+		    drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
+		    drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
+		    drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+
+		    decrypt_text.value = code.data;
+
+		    var feedback_el = document.getElementById("decrypt-qr-video-feedback");
+
+		    if (feedback_el){
+			feedback_el.innerText = "Found QR code, wrote data to input field";
+		    }
+		}
+		
+	    }
+
+	    requestAnimationFrame(decrypt_qr_tick);
+	};
+
+	drawLine = function(begin, end, color) {
+	    decrypt_qr_canvas.beginPath();
+	    decrypt_qr_canvas.moveTo(begin.x, begin.y);
+	    decrypt_qr_canvas.lineTo(end.x, end.y);
+	    decrypt_qr_canvas.lineWidth = 8;
+	    decrypt_qr_canvas.strokeStyle = color;
+	    decrypt_qr_canvas.stroke();
+	}
+	
+	decrypt_qr_dialog = function(stream){
+
+	    decrypt_qr_video = document.createElement("video");
+	    decrypt_qr_video.srcObject = stream;
+	    decrypt_qr_video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+	    decrypt_qr_video.play();
+	    
+	    requestAnimationFrame(decrypt_qr_tick);
+
+	    decrypt_qr_canvas_el = document.createElement("canvas");
+	    decrypt_qr_canvas = decrypt_qr_canvas_el.getContext("2d");
+	    
+	    var d = document.createElement("dialog");
+	    d.setAttribute("style", "min-width:50vw;");
+	    
+	    var close = document.createElement("div");
+	    close.setAttribute("id", "decrypt-qr-video-close");
+	    
+	    close.onclick = function(){
+		
+		decrypt_qr_video.pause();
+
+		stream.getTracks().forEach((track) => {
+		    if (track.readyState == 'live') {
+			track.stop();
+		    }
+		});
+
+		d.close();
+		document.body.removeChild(d);
+		return false;
+	    };
+	    
+	    close.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg>';
+	    
+	    d.appendChild(close);
+
+	    var feedback = document.createElement("div");
+	    feedback.setAttribute("class", "feedback");	    
+	    feedback.setAttribute("id", "decrypt-qr-video-feedback");
+	    d.appendChild(feedback);
+	    
+	    var grid = document.createElement("div");
+	    grid.setAttribute("id", "decrypt-qr-video-grid");
+
+	    grid.appendChild(decrypt_qr_video);
+	    grid.appendChild(decrypt_qr_canvas_el);
+	    
+	    d.appendChild(grid);
+	    document.body.append(d)
+	    d.showModal();
+	};
+	
+	decrypt_qr.onclick = function(){
+
+	    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+		decrypt_qr_dialog(stream);
+	    }).catch((err) => {
+		console.error(err);
+	    });
+	};
 	
 	encrypt_hide.onclick = function(){
 
@@ -156,9 +292,11 @@ window.addEventListener("load", function load(event){
 		return false;
 	    }
 
-	    encrypt_result_data.innerHTML = "";		
+	    encrypt_result_data.innerHTML = "";
+	    encrypt_result_qr.innerHTML = "";			    
 	    encrypt_result.style.display = "none";
 	    encrypt_copy.style.display = "none";
+	    encrypt_qr.style.display = "none";	    
 	    
 	    encrypt_spinner.style.display = "inline-block";
 
@@ -176,6 +314,8 @@ window.addEventListener("load", function load(event){
 		    if (navigator.clipboard){
 			encrypt_copy.style.display = "inline-block";
 		    }
+
+		    encrypt_qr.style.display = "inline-block";
 		    
 		}).catch((err) => {
 		    encrypt_spinner.style.display = "none";		
@@ -280,7 +420,8 @@ window.addEventListener("load", function load(event){
 	decrypt_toggle.removeAttribute("disabled");
 
 	encrypt_show.style.display = "inline-block";
-	
+	decrypt_qr.style.display = "inline-block";
+    	
     }).catch((err) => {
 	alert("Failed to load age WebAssembly functions");
 	console.error("Failed to load WASMbinary", err);
