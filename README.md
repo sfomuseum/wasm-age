@@ -20,7 +20,7 @@ GOOS=js GOARCH=wasm \
 
 ## Example
 
-Point a web server at the [www](www) folder and then load it in your web browser. I like to use the `fileserver` tool in the [aaronland/go-http-fileserver](https://github.com/aaronland/go-http-fileserver) package mostly because I wrote but, really, any web server will do. For example:
+Point a web server at the [www](www) folder and then load it in your web browser. I like to use the `fileserver` tool in the [aaronland/go-http-fileserver](https://github.com/aaronland/go-http-fileserver) package mostly because I wrote but it, really, any web server will do. For example:
 
 ```
 $> fileserver -root www
