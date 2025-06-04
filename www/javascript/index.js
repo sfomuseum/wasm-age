@@ -32,6 +32,7 @@ window.addEventListener("load", function load(event){
     var decrypt_qr = document.getElementById("decrypt-qr");        
 
     var decrypt_qr_video;
+    
     var decrypt_qr_canvas;
     var decrypt_qr_canvas_el;
 
@@ -73,17 +74,40 @@ window.addEventListener("load", function load(event){
 	};
 
 	decrypt_qr_tick = function(){
-
+	    
 	    if (!decrypt_qr_video){
 		return;
 	    }
+
+	    // view-source:https://cozmo.github.io/jsQR/
 	    
 	    if (decrypt_qr_video.readyState === decrypt_qr_video.HAVE_ENOUGH_DATA) {
-		console.log("OKAY VIDEO");
-
 		decrypt_qr_canvas_el.height = decrypt_qr_video.videoHeight;
 		decrypt_qr_canvas_el.width = decrypt_qr_video.videoWidth;
 		decrypt_qr_canvas.drawImage(decrypt_qr_video, 0, 0, decrypt_qr_canvas_el.width, decrypt_qr_canvas_el.height);
+
+		var im = decrypt_qr_canvas.getImageData(0, 0, decrypt_qr_canvas_el.width, decrypt_qr_canvas_el.height);
+		
+		var code = jsQR(im.data, im.width, im.height, {
+		    inversionAttempts: "dontInvert",
+		});
+
+		if (code){
+
+		    drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
+		    drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
+		    drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
+		    drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+
+		    decrypt_text.value = code.data;
+
+		    var feedback_el = document.getElementById("decrypt-qr-video-feedback");
+
+		    if (feedback_el){
+			feedback_el.innerText = "Found QR code, wrote data to input field";
+		    }
+		}
+		
 	    }
 
 	    requestAnimationFrame(decrypt_qr_tick);
@@ -93,7 +117,7 @@ window.addEventListener("load", function load(event){
 	    decrypt_qr_canvas.beginPath();
 	    decrypt_qr_canvas.moveTo(begin.x, begin.y);
 	    decrypt_qr_canvas.lineTo(end.x, end.y);
-	    decrypt_qr_canvas.lineWidth = 4;
+	    decrypt_qr_canvas.lineWidth = 8;
 	    decrypt_qr_canvas.strokeStyle = color;
 	    decrypt_qr_canvas.stroke();
 	}
@@ -114,9 +138,10 @@ window.addEventListener("load", function load(event){
 	    d.setAttribute("style", "min-width:50vw;");
 	    
 	    var close = document.createElement("div");
-	    close.setAttribute("style", "float:right;");
+	    close.setAttribute("id", "decrypt-qr-video-close");
 	    
 	    close.onclick = function(){
+		
 		decrypt_qr_video.pause();
 
 		stream.getTracks().forEach((track) => {
@@ -134,6 +159,11 @@ window.addEventListener("load", function load(event){
 	    
 	    d.appendChild(close);
 
+	    var feedback = document.createElement("div");
+	    feedback.setAttribute("class", "feedback");	    
+	    feedback.setAttribute("id", "decrypt-qr-video-feedback");
+	    d.appendChild(feedback);
+	    
 	    var grid = document.createElement("div");
 	    grid.setAttribute("id", "decrypt-qr-video-grid");
 

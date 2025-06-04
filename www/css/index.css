@@ -32,6 +32,16 @@ pre {
 
 /* Ids */
 
+#decrypt-qr-video-close {
+	display:flex;
+	justify-content: right;
+	margin-bottom:1rem;
+}
+
+#decrypt-qr-video-feedback {
+	margin-bottom: .5rem;
+}
+
 #decrypt-qr-video-grid {
 	display:grid;
 	grid-template-columns:1fr 1fr;
