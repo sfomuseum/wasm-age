@@ -59,13 +59,13 @@ Clicking the "Decrypt" button (at the top of the page) will display the new tab 
 
 ![](docs/images/wasm-age-decrypt.png)
 
-You can enter text manually or by scanning for data encoded in a QR code by clicking the [SCAN-QR-CODE] icon.
+You can enter text manually or by scanning for data encoded in a QR code by clicking the [SCAN-QR-CODE] icon. If you click the [SCAN-QR-CODE] icon a new dialog window will be open showing you what your camera's video feed as well as any QR codes that are located in the stream. 
 
 ![](docs/images/wasm-age-decrypt-qr.png)
 
 _The QR code on the right should have a red box outlining it but apparently that wasn't captured by the screenshot-ing application._
 
-If you click the [SCAN-QR-CODE] icon a new dialog window will be open showing you what your camera's video feed as well as any QR codes that are located in the stream. Once the camera finds a QR code it will outline it in the image and write its data back to the default input form.
+Once the camera finds a QR code it will outline it in the image and write its data back to the default input form.
 
 ![](docs/images/wasm-age-decrypted-hidden.png)
 
