@@ -31,7 +31,7 @@ func DecryptFunc () js.Func {
 			err := age.Decrypt(key, r, wr)
 
 			if err != nil {
-				reject.Invoke(fmt.Sprintf("Failed to decrypt body, %w", err))
+				reject.Invoke(fmt.Errorf("Failed to decrypt body, %w", err))
 				return nil
 			}
 

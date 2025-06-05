@@ -40,7 +40,7 @@ func EncryptFunc () js.Func {
 			err := age.Encrypt(key, r, &MyWriteCloser{ wr })
 
 			if err != nil {
-				reject.Invoke(fmt.Sprintf("Failed to encrypt body, %w", err))
+				reject.Invoke(fmt.Errorf("Failed to encrypt body, %w", err))
 				return nil
 			}
 
