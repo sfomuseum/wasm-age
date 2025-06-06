@@ -30,7 +30,7 @@ window.addEventListener("load", function load(event){
     var decrypt_hide = document.getElementById("decrypt-hide");
     var decrypt_show = document.getElementById("decrypt-show");
     var decrypt_copy = document.getElementById("decrypt-copy");
-    var encrypt_load = document.getElementById("encrypt-load");        
+    var decrypt_load = document.getElementById("decrypt-load");        
     var decrypt_qr = document.getElementById("decrypt-qr");        
 
     var decrypt_qr_video;
@@ -59,6 +59,107 @@ window.addEventListener("load", function load(event){
 	// The data that has been decrypted
 	let decrypted_text = "";
 
+	const load_dialog = function(stream){
+
+	    return new Promise((resolve, reject) => {
+		
+		var d = document.createElement("dialog");
+		d.setAttribute("style", "min-width:50vw;");
+		
+		const exit = function(){
+		    d.close();
+		    document.body.removeChild(d);
+		};
+		
+		var close = document.createElement("div");
+		close.setAttribute("id", "load-close");
+		
+		close.onclick = function(){
+		    exit();
+		    return false;
+		};
+		
+		close.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg>';
+		
+		d.appendChild(close);
+		
+		const form = document.createElement("form");
+		form.setAttribute("class", "form");
+		
+		const input = document.createElement("input")
+		input.setAttribute("class", "form-control");
+		input.setAttribute("type", "file");
+		input.setAttribute("id", "upload");
+		
+		const label = document.createElement("label");
+		label.setAttribute("class", "form-label");
+		label.setAttribute("for", "upload");
+		label.appendChild(document.createTextNode("Upload file"));
+		
+		const btn = document.createElement("button");
+		btn.setAttribute("class", "btn btn-primary");
+		btn.appendChild(document.createTextNode("Upload"));
+		
+		const wrapper = document.createElement("div");
+		wrapper.setAttribute("class", "mb-3");
+		wrapper.appendChild(label);
+		wrapper.appendChild(input);
+		
+		form.appendChild(wrapper);
+		form.appendChild(btn);
+		
+		btn.onclick = function(){
+		    
+		    if (! input.files.length){
+			return false;
+		    }
+		    
+		    try {
+			
+			const file = input.files[0];
+			const reader = new FileReader();
+			
+			reader.onload = function(e) {
+			    resolve(e.target.result);
+			    exit();
+			};
+			
+			reader.onerror = function() {
+			    console.error("Failed to read file");
+			    reject("Unable to read file");
+			    exit();
+			};
+			
+			reader.readAsText(file);
+			return false;
+			
+		    } catch (err) {
+			console.error("Failed to load file", err);
+			reject(err);
+			exit();
+		    }
+		
+		};
+	    
+		d.appendChild(form);
+		document.body.append(d);
+		d.showModal();
+	    });
+	};
+
+	const decrypt_load_dialog = function(){
+
+	    load_dialog().then((rsp) => {
+		decrypt_text.value = rsp;
+	    }).catch((err) => {
+		feedback_el.innerText = err;
+	    });
+	};
+	
+	decrypt_load.onclick = function(){
+	    const d = decrypt_load_dialog();
+	};
+	
 	encrypt_save.onclick = function(){
 
 	    try {
@@ -453,6 +554,7 @@ window.addEventListener("load", function load(event){
 
 	encrypt_show.style.display = "inline-block";
 	decrypt_qr.style.display = "inline-block";
+	decrypt_load.style.display = "inline-block";	
     	
     }).catch((err) => {
 	alert("Failed to load age WebAssembly functions");

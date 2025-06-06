@@ -82,6 +82,7 @@ pre {
 
 .hide-show {
 	display:none;
+	margin-left:.3rem;
 }
 
 .hide-show svg {
