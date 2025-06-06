@@ -14,6 +14,7 @@ window.addEventListener("load", function load(event){
     var encrypt_hide = document.getElementById("encrypt-hide");
     var encrypt_show = document.getElementById("encrypt-show");    
     var encrypt_copy = document.getElementById("encrypt-copy");
+    var encrypt_load = document.getElementById("encrypt-load");        
     var encrypt_save = document.getElementById("encrypt-save");    
     var encrypt_qr = document.getElementById("encrypt-qr");
     
@@ -30,7 +31,8 @@ window.addEventListener("load", function load(event){
     var decrypt_hide = document.getElementById("decrypt-hide");
     var decrypt_show = document.getElementById("decrypt-show");
     var decrypt_copy = document.getElementById("decrypt-copy");
-    var decrypt_load = document.getElementById("decrypt-load");        
+    var decrypt_load = document.getElementById("decrypt-load");
+    var decrypt_save = document.getElementById("decrypt-save");            
     var decrypt_qr = document.getElementById("decrypt-qr");        
 
     var decrypt_qr_video;
@@ -116,7 +118,6 @@ window.addEventListener("load", function load(event){
 			return false;
 		    }
 
-		    console.log("WYT", input, input.value);
 		    resolve(input.value);
 		    exit();
 		};
@@ -256,7 +257,32 @@ window.addEventListener("load", function load(event){
 	};
 	
 	decrypt_load.onclick = function(){
-	    const d = decrypt_load_dialog();
+	    decrypt_load_dialog();
+	};
+
+	decrypt_save.onclick = function(){
+
+	    save_file(decrypted_text).then((rsp) => {
+		encrypt_feedback.innerText = "Save data to file";
+	    }).catch((err) => {
+		encrypt_feedback.innerText = "Failed to save data to file, " + err;
+	    });
+
+	    return false;
+	};
+
+	const encrypt_load_dialog = function(){
+
+	    load_file().then((rsp) => {
+		to_encrypt = rsp;
+		encrypt_text.value = "*".repeat(rsp.length);
+	    }).catch((err) => {
+		encrypt_feedback.innerText = err;
+	    });
+	};
+	
+	encrypt_load.onclick = function(){
+	    encrypt_load_dialog();
 	};
 	
 	encrypt_save.onclick = function(){
@@ -269,7 +295,7 @@ window.addEventListener("load", function load(event){
 
 	    return false;
 	};
-	
+
 	encrypt_qr.onclick = function(){
 
 	    try {
@@ -431,7 +457,7 @@ window.addEventListener("load", function load(event){
 	    decrypt_result_data.innerHTML = "";
 	    decrypt_result_data.appendChild(document.createTextNode(decrypted_text));
 	};
-	
+
 	encrypt_text.oninput = function(ev){
 	    
 	    const el = ev.target;
@@ -461,7 +487,7 @@ window.addEventListener("load", function load(event){
 	    }
 	    	    
 	};
-
+	
 	encrypt_toggle.onclick = function(){
 
 	    encrypt_toggle.setAttribute("disabled", "disabled");
@@ -599,6 +625,8 @@ window.addEventListener("load", function load(event){
 		    if (navigator.clipboard){
 			decrypt_copy.style.display = "inline-block";
 		    }
+
+		    decrypt_save.style.display = "inline-block";
 		    
 		}).catch((err) => {
 		    decrypt_spinner.style.display = "none";			
@@ -636,6 +664,8 @@ window.addEventListener("load", function load(event){
 	decrypt_toggle.removeAttribute("disabled");
 
 	encrypt_show.style.display = "inline-block";
+	encrypt_load.style.display = "inline-block";
+	
 	decrypt_qr.style.display = "inline-block";
 	decrypt_load.style.display = "inline-block";	
     	
