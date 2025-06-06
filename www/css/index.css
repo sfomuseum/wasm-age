@@ -75,6 +75,16 @@ pre {
 	background-color:transparent;
 }
 
+.dialog {
+	min-width:50vw;
+}
+
+.dialog-close {
+	display:flex;
+	justify-content: right;
+	margin-bottom:1rem;
+}
+
 .feedback {
 	font-style: italic;
 	font-size: .9rem;

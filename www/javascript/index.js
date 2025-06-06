@@ -59,12 +59,14 @@ window.addEventListener("load", function load(event){
 	// The data that has been decrypted
 	let decrypted_text = "";
 
-	const load_dialog = function(stream){
+	// START OF put me in a library
+
+	const choose_filename = function(stream){
 
 	    return new Promise((resolve, reject) => {
 		
 		var d = document.createElement("dialog");
-		d.setAttribute("style", "min-width:50vw;");
+		d.setAttribute("class", "dialog");		
 		
 		const exit = function(){
 		    d.close();
@@ -72,7 +74,102 @@ window.addEventListener("load", function load(event){
 		};
 		
 		var close = document.createElement("div");
-		close.setAttribute("id", "load-close");
+		close.setAttribute("class", "dialog-close");
+		
+		close.onclick = function(){
+		    exit();
+		    return false;
+		};
+		
+		close.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg>';
+		
+		d.appendChild(close);
+		
+		const form = document.createElement("form");
+		form.setAttribute("class", "form");
+		
+		const input = document.createElement("input")
+		input.setAttribute("class", "form-control");
+		input.setAttribute("type", "text");
+		input.setAttribute("id", "filename");
+		
+		const label = document.createElement("label");
+		label.setAttribute("class", "form-label");
+		label.setAttribute("for", "filename");
+		label.appendChild(document.createTextNode("Choose a new filename"));
+		
+		const btn = document.createElement("button");
+		btn.setAttribute("class", "btn btn-primary");
+		btn.appendChild(document.createTextNode("Okay"));
+		
+		const wrapper = document.createElement("div");
+		wrapper.setAttribute("class", "mb-3");
+		wrapper.appendChild(label);
+		wrapper.appendChild(input);
+		
+		form.appendChild(wrapper);
+		form.appendChild(btn);
+		
+		btn.onclick = function(){
+		    
+		    if (! input.value){
+			return false;
+		    }
+
+		    console.log("WYT", input, input.value);
+		    resolve(input.value);
+		    exit();
+		};
+	    
+		d.appendChild(form);
+		document.body.append(d);
+		d.showModal();
+	    });
+	};
+
+	const save_file = function(data, type){
+
+	    return new Promise((resolve, reject) => {
+
+		choose_filename().then((filename) => {
+		    
+		    const blob = new Blob([data], { type: 'text/plain' });
+		    const url = URL.createObjectURL(blob);
+		    
+		    const a = document.createElement('a');
+		    a.href = url;
+		    
+		    a.download = filename;
+		    document.body.appendChild(a);
+		    a.click();
+		    
+		    document.body.removeChild(a);
+		    URL.revokeObjectURL(url);
+		    
+		    resolve();
+		    
+		}).catch((err) => {
+		    reject(err);
+		    return;
+		});
+		
+	    });
+	};
+	
+	const load_file = function(stream){
+
+	    return new Promise((resolve, reject) => {
+		
+		var d = document.createElement("dialog");
+		d.setAttribute("class", "dialog");
+		
+		const exit = function(){
+		    d.close();
+		    document.body.removeChild(d);
+		};
+		
+		var close = document.createElement("div");
+		close.setAttribute("class", "dialog-close");
 		
 		close.onclick = function(){
 		    exit();
@@ -147,12 +244,14 @@ window.addEventListener("load", function load(event){
 	    });
 	};
 
+	// END OF put me in a library
+	
 	const decrypt_load_dialog = function(){
 
-	    load_dialog().then((rsp) => {
+	    load_file().then((rsp) => {
 		decrypt_text.value = rsp;
 	    }).catch((err) => {
-		feedback_el.innerText = err;
+		decrypt_feedback.innerText = err;
 	    });
 	};
 	
@@ -162,29 +261,13 @@ window.addEventListener("load", function load(event){
 	
 	encrypt_save.onclick = function(){
 
-	    try {
+	    save_file(encrypted_text).then((rsp) => {
+		encrypt_feedback.innerText = "Save data to file";
+	    }).catch((err) => {
+		encrypt_feedback.innerText = "Failed to save data to file, " + err;
+	    });
 
-		// Prompt for filename...
-		const filename = "age.txt";
-		
-		const blob = new Blob([encrypted_text], { type: 'text/plain' });
-		const url = URL.createObjectURL(blob);
-
-		const a = document.createElement('a');
-		a.href = url;
-
-		a.download = filename;
-		document.body.appendChild(a);
-		a.click();
-
-		document.body.removeChild(a);
-		URL.revokeObjectURL(url);
-		
-	    } catch(err) {
-		console.error("Failed to save encrypted data", err);
-		feedback_el.innerText = "Failed to save encrypted data, " + err;
-	    }
-	    
+	    return false;
 	};
 	
 	encrypt_qr.onclick = function(){
