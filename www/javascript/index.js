@@ -14,6 +14,7 @@ window.addEventListener("load", function load(event){
     var encrypt_hide = document.getElementById("encrypt-hide");
     var encrypt_show = document.getElementById("encrypt-show");    
     var encrypt_copy = document.getElementById("encrypt-copy");
+    var encrypt_save = document.getElementById("encrypt-save");    
     var encrypt_qr = document.getElementById("encrypt-qr");
     
     var decrypt_wrapper = document.getElementById("decrypt-wrapper");
@@ -28,7 +29,8 @@ window.addEventListener("load", function load(event){
     
     var decrypt_hide = document.getElementById("decrypt-hide");
     var decrypt_show = document.getElementById("decrypt-show");
-    var decrypt_copy = document.getElementById("decrypt-copy");        
+    var decrypt_copy = document.getElementById("decrypt-copy");
+    var encrypt_load = document.getElementById("encrypt-load");        
     var decrypt_qr = document.getElementById("decrypt-qr");        
 
     var decrypt_qr_video;
@@ -51,11 +53,39 @@ window.addEventListener("load", function load(event){
 	// The data to encrypt
 	let to_encrypt = "";
 
+	// The encrypted (and armor-ed) version of the data
 	let encrypted_text = "";
 	
 	// The data that has been decrypted
 	let decrypted_text = "";
 
+	encrypt_save.onclick = function(){
+
+	    try {
+
+		// Prompt for filename...
+		const filename = "age.txt";
+		
+		const blob = new Blob([encrypted_text], { type: 'text/plain' });
+		const url = URL.createObjectURL(blob);
+
+		const a = document.createElement('a');
+		a.href = url;
+
+		a.download = filename;
+		document.body.appendChild(a);
+		a.click();
+
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+		
+	    } catch(err) {
+		console.error("Failed to save encrypted data", err);
+		feedback_el.innerText = "Failed to save encrypted data, " + err;
+	    }
+	    
+	};
+	
 	encrypt_qr.onclick = function(){
 
 	    try {
@@ -296,7 +326,8 @@ window.addEventListener("load", function load(event){
 	    encrypt_result_qr.innerHTML = "";			    
 	    encrypt_result.style.display = "none";
 	    encrypt_copy.style.display = "none";
-	    encrypt_qr.style.display = "none";	    
+	    encrypt_qr.style.display = "none";
+	    encrypt_save.style.display = "none";
 	    
 	    encrypt_spinner.style.display = "inline-block";
 
@@ -316,6 +347,7 @@ window.addEventListener("load", function load(event){
 		    }
 
 		    encrypt_qr.style.display = "inline-block";
+		    encrypt_save.style.display = "inline-block";		    
 		    
 		}).catch((err) => {
 		    encrypt_spinner.style.display = "none";		

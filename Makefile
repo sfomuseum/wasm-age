@@ -4,6 +4,7 @@ LDFLAGS=-s -w
 MINIFY=minify
 
 debug:
+	@make bundle
 	fileserver -root www
 
 bundle:
