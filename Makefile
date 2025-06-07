@@ -2,18 +2,14 @@ GOMOD=$(shell test -f "go.work" && echo "readonly" || echo "vendor")
 LDFLAGS=-s -w
 
 MINIFY=minify
+SERVER_URI=http://localhost:8080
 
 debug:
 	@make bundle
-	fileserver -root www
+	fileserver -root www -server-uri=$(SERVER_URI)
 
 bundle:
-	@make bundle-app
 	@make bundle-qr
-
-bundle-app:
-	$(MINIFY) -b -o www/javascript/index.bundle.min.js \
-		www/javascript/index.js
 
 bundle-qr:
 	$(MINIFY) -b -o www/javascript/qr.bundle.min.js \

@@ -68,6 +68,18 @@ pre {
 	margin-left:.5rem;
 }
 
+#footer {
+	position: absolute;
+	right: 1.5rem;
+	bottom: 1rem;
+	background-color: #fff;
+}
+
+#purge {
+	font-size:small;
+	color:#666;
+}
+
 /* Classes */
 
 .card,.card-header,.card-footer {
@@ -123,6 +135,10 @@ pre {
 
 	#decrypt-qr-video-grid {
 		grid-template-columns:1fr;
+	}
+
+	.hide-show {
+		margin-left:.5rem;
 	}
 	
 	.row {

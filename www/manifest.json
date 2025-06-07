@@ -1,0 +1,11 @@
+{
+    "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+    "name": "age",
+    "short_name": "age",
+    "description": "Encrpyt and decrypt text using wasm-age",
+    "icons": [],
+    "start_url": ".",
+    "display": "fullscreen",
+    "theme_color": "#fff",
+    "background_color": "#fff"
+}

@@ -1,6 +1,6 @@
 # wasm-age
 
-Experimental package to export the [filippo.io/age](https://github.com/FiloSottile/age) scrypt encrypt and decrypt functions as a WebAssembly (WASM) binary.
+Experimental package to export the [filippo.io/age](https://github.com/FiloSottile/age) scrypt encrypt and decrypt functions as a WebAssembly (WASM) binary with optional offline support.
 
 ## Experimental
 
@@ -79,9 +79,36 @@ _Click the [NO-EYEBALL] icon to hide the text again._
 
 If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a [CLIPBOARD] icon which will allow you to copy the unencrypted data to your computer's clipboard.
 
+## Offline support
+
+If the `<body>` element in the main `index.html` contains an "offline" attribute then support for registering the tool as an offline application will be initialized. For example:
+
+```
+    <body offline="true">
+```
+
+The default scope for the offline application is the pathname that the application is hosted from. For example:
+
+```
+    if (document.body.getAttribute("offline")){
+
+	const scope = location.pathname;
+	
+	offline.application.init(scope).then((rsp) => {
+	    console.debug("Offline application initialized.");
+	}).catch((err) => {
+	    console.error("Failed to initialize offline application", err);
+	    alert("Failed to initialize offline application");
+	});
+    }
+```
+
+Support for running as an offline application is disabled by default but _should_ "just work" however [ServiceWorkers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers) and offline-anything in browsers can be fussy and brittle so if you tell me it doesn't work for you I won't be overly surpised.
+
 ## See also
 
 * https://github.com/FiloSottile/age
 * https://github.com/sfomuseum/js-sfomuseum-golang-wasm
 * https://github.com/davidshimjs/qrcodejs
 * https://github.com/cozmo/jsQR
+* https://github.com/aaronland/js-offline-application

@@ -47,9 +47,25 @@ window.addEventListener("load", function load(event){
     decrypt_text.value = "";
     decrypt_key.value = "";        
     decrypt_result_data.innerHTML = "";
-    
+
     sfomuseum.golang.wasm.fetch("wasm/age.wasm").then((rsp) => {
 
+	if (document.body.getAttribute("offline")){
+	    
+	    const scope = location.pathname;
+	    console.debug("Register offline application", scope);
+	    
+	    offline.application.init(scope).then((rsp) => {
+
+		const footer = document.getElementById("footer");
+		offline.application.add_purge_button(footer);		
+		
+	    }).catch((err) => {
+		console.error("Failed to initialize offline application", err);
+		alert("Failed to initialize offline application");
+	    });
+	}
+	
 	let hide_to_encrypt = true;
 
 	// The data to encrypt
