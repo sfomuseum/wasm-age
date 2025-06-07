@@ -47,6 +47,16 @@ window.addEventListener("load", function load(event){
     decrypt_text.value = "";
     decrypt_key.value = "";        
     decrypt_result_data.innerHTML = "";
+
+    if (document.body.getAttribute("offline")){
+
+	offline.application.init().then((rsp) => {
+	    console.debug("Offline application initialized.");
+	}).catch((err) => {
+	    console.error("Failed to initialize offline application", err);
+	    alert("Failed to initialize offline application");
+	});
+    }
     
     sfomuseum.golang.wasm.fetch("wasm/age.wasm").then((rsp) => {
 

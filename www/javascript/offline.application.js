@@ -3,9 +3,9 @@
 /* https://web.dev/learn/pwa/service-workers/ */
 /* https://webkit.org/blog/8090/workers-at-your-service/ */
 
-var age = age || {};
+var offline = offline || {};
 
-age.offline = (function(){
+offline.application = (function(){
 
     var self = {
 	
@@ -51,7 +51,7 @@ age.offline = (function(){
 	    
 	},
 
-	purge_with_confirmation: function(){
+	purge_with_confirmation: function(prefix){
 
 	    return new Promise((resolve, reject) => {
 		
@@ -68,7 +68,7 @@ age.offline = (function(){
 		    }
 		}
 		
-		self.purge().then((rsp) => {
+		self.purge(prefix).then((rsp) => {
 		    resolve(rsp);
 		}).catch((err) => {
 		    reject(err);
@@ -76,7 +76,7 @@ age.offline = (function(){
 	    });
 	},
 	
-	purge: function(){
+	purge: function(prefix){
 
 	    return new Promise((resolve, reject) => {
 		
@@ -86,7 +86,7 @@ age.offline = (function(){
 
                     return Promise.all(cachesNames.map(function (cacheName) {
 			
-			if (! cacheName.startsWith("convert-")){
+			if (! cacheName.startsWith(prefix)){
 			    return Promise.resolve();
 			}
 			
@@ -97,7 +97,6 @@ age.offline = (function(){
                 
 		}).then(function () {
                     console.debug("All " + document.defaultView.location.origin + " caches are deleted");
-                    // convert.feedback.success("All caches have been deleted.");
 		    resolve();
 		}).catch((err) => {
 		    console.error("Failed to remove caches, ",err);

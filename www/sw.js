@@ -1,4 +1,4 @@
-const cache_name = 'convert-v0.0.6';
+const cache_name = 'wasm-age-v0.0.6';
 
 console.log("Hello convert/sw.js");
 
@@ -14,9 +14,9 @@ const app_files = [
     // Javascript dependencies
     "./javascript/sfomuseum.golang.wasm.bundle.js",
     "./javascript/qr.bundle.min.js",        
+    "./javascript/offline.application.min.js",
     
     // Javascript application
-    "./javascript/age.convert.js",        
     "./javascript/index.js",    
 
     // WASM
