@@ -3,6 +3,15 @@
 /* https://web.dev/learn/pwa/service-workers/ */
 /* https://webkit.org/blog/8090/workers-at-your-service/ */
 
+/*
+   navigator.serviceWorker.getRegistrations().then(function(registrations) {
+   for(let registration of registrations) {
+   console.debug("Unregister", registration);
+   registration.unregister();
+   }
+   });
+ */
+
 var offline = offline || {};
 
 offline.application = (function(){
@@ -25,8 +34,18 @@ offline.application = (function(){
 		};
 
 		console.log("register service worker", sw_uri, sw_args);
+
+		navigator.serviceWorker.onmessageerror = function(e){
+		    console.log("SAD", e);
+		};
+
+		navigator.serviceWorker.onmessage = function(e){
+		    console.log("MSG", e);
+		};
 		
 		navigator.serviceWorker.register(sw_uri, sw_args).then((registration) => {
+
+		    console.log("sw registered", sw_args);
 
 		    if (navigator.onLine){
 
@@ -34,12 +53,13 @@ offline.application = (function(){
 			
 			registration.update().then((rsp) => {
 			    console.log("sw registration updated");
+			    resolve();
 			}).catch((err) => {
-			    console.error("failed to update sw registration", err);
+			    console.warn("failed to update sw registration", err);
+			    resolve();
 			});
 		    }
 		    
-		    console.log("sw registered", sw_args);		    
 		    resolve();
 		    
 		}).catch((err) => {

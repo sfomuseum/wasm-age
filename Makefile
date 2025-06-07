@@ -2,10 +2,11 @@ GOMOD=$(shell test -f "go.work" && echo "readonly" || echo "vendor")
 LDFLAGS=-s -w
 
 MINIFY=minify
+SERVER_URI=http://localhost:8080
 
 debug:
 	@make bundle
-	fileserver -root www
+	fileserver -root www -server-uri=$(SERVER_URI)
 
 bundle:
 	@make bundle-app

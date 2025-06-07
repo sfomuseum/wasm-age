@@ -50,7 +50,10 @@ window.addEventListener("load", function load(event){
 
     if (document.body.getAttribute("offline")){
 
-	offline.application.init().then((rsp) => {
+	const scope = location.pathname;
+	console.debug("Register offline application", scope);
+	
+	offline.application.init(scope).then((rsp) => {
 	    console.debug("Offline application initialized.");
 	}).catch((err) => {
 	    console.error("Failed to initialize offline application", err);
