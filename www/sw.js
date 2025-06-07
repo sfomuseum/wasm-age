@@ -1,26 +1,25 @@
-const cache_name = 'wasm-age-v0.0.1';
+const cache_name = 'age-v0.0.5';
 
-console.log("Hello sw.js");
+console.log("Hello convert/sw.js");
 
 const app_files = [
     // HTML
     "./index.html",
     
     // CSS
-    "./css/bootstrap.5.3.6.min.css",
-    "./css/bootstrap.5.3.6.min.css.map",    
+    "./css/bootstrap.min.css",
     "./css/index.css",
     
     // Javascript dependencies
     "./javascript/sfomuseum.golang.wasm.bundle.js",
-    "./javascript/qr.bundle.min.js",        
+    "./javascript/qr.bundle.min.js",    
     "./javascript/offline.application.js",
     
     // Javascript application
     "./javascript/index.js",    
 
     // WASM
-    "./wasm/extrude.wasm",
+    "./wasm/age.wasm",
     
     // Javascript service workers
     "./sw.js"    

@@ -9,12 +9,7 @@ debug:
 	fileserver -root www -server-uri=$(SERVER_URI)
 
 bundle:
-	@make bundle-app
 	@make bundle-qr
-
-bundle-app:
-	$(MINIFY) -b -o www/javascript/index.bundle.min.js \
-		www/javascript/index.js
 
 bundle-qr:
 	$(MINIFY) -b -o www/javascript/qr.bundle.min.js \
