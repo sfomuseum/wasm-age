@@ -103,7 +103,9 @@ The default scope for the offline application is the pathname that the applicati
     }
 ```
 
-Support for running as an offline application is disabled by default but _should_ "just work" however [ServiceWorkers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers) and offline-anything in browsers can be fussy and brittle so if you tell me it doesn't work for you I won't be overly surpised.
+Support for running as an offline application is enabled by default and _should_ "just work" but [ServiceWorkers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers) and offline-anything in browsers can be fussy and brittle so if you tell me it doesn't work for you I won't be overly surpised.
+
+The simplest way to disable offline support is to remove the "offline" attribute from the `body` element in the [www/index.html](www/index.html) file.
 
 ## See also
 
