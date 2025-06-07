@@ -1,6 +1,4 @@
-const cache_name = 'age-v0.0.5';
-
-console.log("Hello convert/sw.js");
+const cache_name = 'age-v0.0.11';
 
 const app_files = [
     // HTML

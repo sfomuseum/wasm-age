@@ -34,14 +34,6 @@ offline.application = (function(){
 		};
 
 		console.log("register service worker", sw_uri, sw_args);
-
-		navigator.serviceWorker.onmessageerror = function(e){
-		    console.log("SAD", e);
-		};
-
-		navigator.serviceWorker.onmessage = function(e){
-		    console.log("MSG", e);
-		};
 		
 		navigator.serviceWorker.register(sw_uri, sw_args).then((registration) => {
 
@@ -83,7 +75,7 @@ offline.application = (function(){
 		if (! navigator.onLine){
 		    
 		    if (! confirm("Are you really sure? You appear to be offline and deleting the application cache will probably cause offline support to stop working until you are online again.")){
-			resolve()
+			resolve(false)
 			return;
 		    }
 		}
@@ -117,13 +109,35 @@ offline.application = (function(){
                 
 		}).then(function () {
                     console.debug("All " + document.defaultView.location.origin + " caches are deleted");
-		    resolve();
+		    resolve(true);
 		}).catch((err) => {
 		    console.error("Failed to remove caches, ",err);
 		    reject(err);
 		});
 		
 	    });
+	},
+
+	add_purge_button: function(el){
+
+	    var purge_el = document.createElement("span");
+	    purge_el.setAttribute("id", "purge");
+	    purge_el.appendChild(document.createTextNode("purge offline cache"));
+	    
+	    purge_el.onclick = function(){
+		
+		offline.application.purge_with_confirmation().then((purged) => {
+		    if (purged){
+			alert("Offline cache has been removed.");
+		    }
+		}).catch((err) => {
+		    alert("Failed to purge offline cache, " + err);
+		});
+		
+		return false;
+	    };
+
+	    el.appendChild(purge_el);
 	},
     };
 

@@ -56,7 +56,10 @@ window.addEventListener("load", function load(event){
 	    console.debug("Register offline application", scope);
 	    
 	    offline.application.init(scope).then((rsp) => {
-		console.debug("Offline application initialized.");
+
+		const footer = document.getElementById("footer");
+		offline.application.add_purge_button(footer);		
+		
 	    }).catch((err) => {
 		console.error("Failed to initialize offline application", err);
 		alert("Failed to initialize offline application");
