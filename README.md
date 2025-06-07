@@ -111,3 +111,4 @@ Support for running as an offline application is disabled by default but _should
 * https://github.com/sfomuseum/js-sfomuseum-golang-wasm
 * https://github.com/davidshimjs/qrcodejs
 * https://github.com/cozmo/jsQR
+* https://github.com/aaronland/js-offline-application
