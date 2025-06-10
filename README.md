@@ -6,6 +6,10 @@ Experimental package to export the [filippo.io/age](https://github.com/FiloSotti
 
 Did I mention that was experimental? As in it _seems_ to work but I haven't finished thinking about it. There may be bugs. It may be a terrible idea.
 
+## Limitations
+
+Currently this application only support encrypting and decrypting strings using `age`'s "scrypt" identity (passwords).
+
 ## Building
 
 There is a pre-built `age.wasm` binary in the [www/wasm](www/wasm) folder but if you need or want to rebuilt it the easiest thing is to use the handy `wasmjs` Makefile target:

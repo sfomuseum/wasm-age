@@ -1,4 +1,4 @@
-const cache_name = 'age-v0.0.11';
+const cache_name = 'age-v0.0.12';
 
 const app_files = [
     // HTML
