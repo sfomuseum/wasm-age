@@ -33,7 +33,7 @@ $> fileserver -root www
 
 And then when you open your web browser to `http://localhost:8080` you see something like this:
 
-![](docs/images/wasm-age-launch.png)
+![](docs/images/wasm-age-encrypt-launch.png)
 
 The default tab allows you to encrypt arbitrary text data. By default the text entered in to the form is hidden:
 
@@ -45,11 +45,7 @@ If you click on the ![](docs/images/icon-eye.svg) icon you can see the text you'
 
 _Click the ![](docs/images/icon-eye-slash.svg) icon to hide the text again._
 
-Add a password (key) to encrypt the content.
-
-![](docs/images/wasm-age-encrypt-key.png)
-
-When you click the `Encrypt` button your text will be encrypted using `age` WebAssembly binary and the result will be printed to the screen.
+Add a password (key) to encrypt the content. When you click the `Encrypt` button your text will be encrypted using `age` WebAssembly binary and the result will be printed to the screen.
 
 ![](docs/images/wasm-age-encrypted.png)
 
@@ -61,27 +57,27 @@ If your web browser supports the [Clipboard API](https://developer.mozilla.org/e
 
 Clicking the "Decrypt" button (at the top of the page) will display the new tab for decypted `age`-encoded data.
 
-![](docs/images/wasm-age-decrypt.png)
+![](docs/images/wasm-age-decrypt-launch.png)
 
-You can enter text manually or by scanning for data encoded in a QR code by clicking the ![](docs/images/icon-qrcode-scan.svg) icon. If you click the ![](docs/images/icon-qrcode-scan.svg) icon a new dialog window will be open showing you what your camera's video feed as well as any QR codes that are located in the stream. 
+You can enter text manually or by scanning for data encoded in a QR code by clicking the ![](docs/images/icon-qrcode-scan.svg) icon. If you click the ![](docs/images/icon-qrcode-scan.svg) icon a new dialog window will be open showing you what your camera's video feed as well as any QR codes that are located in the stream. Once the camera finds a QR code it will outline it in the image and write its data back to the default input form.
 
-![](docs/images/wasm-age-decrypt-qr.png)
-
-_The QR code on the right should have a red box outlining it but apparently that wasn't captured by the screenshot-ing application._
-
-Once the camera finds a QR code it will outline it in the image and write its data back to the default input form.
-
-![](docs/images/wasm-age-decrypted-hidden.png)
+![](docs/images/wasm-age-decrypt-hidden.png)
 
 When you click the `Decrypt` button the data will be decrypted using the `age` WebAssembly binary and the results will be printed to the screen.
 
-![](docs/images/wasm-age-decrypted-plaintext.png)
+![](docs/images/wasm-age-decrypt-plaintext.png)
 
 By default the unencypted data is obscured but if you click the ![](docs/images/icon-eye.svg) icon you can see the unencypted text.
 
 _Click the ![](docs/images/icon-eye-slash.svg) icon to hide the text again._
 
 If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a ![](docs/images/icon-clipboard.svg) icon which will allow you to copy the unencrypted data to your computer's clipboard.
+
+## Mobile
+
+![](docs/images/wasm-age-mobile.png)
+
+The application is responsive and adjusts to mobile devices.
 
 ## Offline support
 
@@ -110,6 +106,10 @@ The default scope for the offline application is the pathname that the applicati
 Support for running as an offline application is enabled by default and _should_ "just work" but [ServiceWorkers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers) and offline-anything in browsers can be fussy and brittle so if you tell me it doesn't work for you I won't be overly surpised.
 
 The simplest way to disable offline support is to remove the "offline" attribute from the `body` element in the [www/index.html](www/index.html) file.
+
+![](docs/images/wasm-age-decrypt-purge.png)
+
+If you need to purge the (offline) application cache click the "purge offline cache" link next to the ![](docs/images/icon-recycle.svg) icon at the bottom of the page.
 
 ## See also
 
