@@ -73,8 +73,6 @@ If your web browser supports the [Clipboard API](https://developer.mozilla.org/e
 
 ## Mobile
 
-![](docs/images/wasm-age-mobile.png)
-
 The application is responsive and adjusts to mobile devices.
 
 ## Offline support
@@ -105,7 +103,7 @@ Support for running as an offline application is enabled by default and _should_
 
 The simplest way to disable offline support is to remove the "offline" attribute from the `body` element in the [www/index.html](www/index.html) file.
 
-![](docs/images/wasm-age-decrypt-purge.png)
+![](docs/images/wasm-age-purge.png)
 
 If you need to purge the (offline) application cache click the "purge offline cache" link next to the ![](docs/images/icon-recycle.svg) icon at the bottom of the page.
 
