@@ -47,11 +47,11 @@ _Click the ![](docs/images/icon-eye-slash.svg) icon to hide the text again._
 
 Add a password (key) to encrypt the content. When you click the `Encrypt` button your text will be encrypted using `age` WebAssembly binary and the result will be printed to the screen.
 
-![](docs/images/wasm-age-encrypted.png)
+![](docs/images/wasm-age-encrypt-encrypted.png)
 
 If you click the ![](docs/images/icon-qrcode.svg) icon the encrypted content will be encoded in a QR code.
 
-![](docs/images/wasm-age-encrypted-qr.png)
+![](docs/images/wasm-age-encrypt-encrypted-qr.png)
 
 If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a ![](docs/images/icon-clipboard.svg) icon which will allow you to copy the encrypted data to your computer's clipboard.
 
