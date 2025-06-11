@@ -8,9 +8,8 @@ Did I mention that was experimental? As in it _seems_ to work but I haven't fini
 
 ## Limitations
 
-Currently this application only support encrypting and decrypting strings using `age`'s "scrypt" identity (passwords).
-
-It also expects to work with plain-text values. Specifically all uses of the `File` web APIs to read or write local files assume plain-text data.
+* Currently this application only supports encrypting and decrypting strings using `age`'s "scrypt" identity (passwords) primitive.
+* It also assumes plain-text values. Specifically all uses of the `File` web APIs to read or write local files assume plain-text data.
 
 ## Building
 
