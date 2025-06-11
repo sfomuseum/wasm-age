@@ -39,7 +39,7 @@ The default tab allows you to encrypt arbitrary text data. By default the text e
 
 ![](docs/images/wasm-age-encrypt-hidden.png)
 
-If you click on the [EYEBALL] icon you can see the text you've entered:
+If you click on the ![](docs/images/icon-eye.svg) icon you can see the text you've entered:
 
 ![](docs/images/wasm-age-encrypt-plaintext.png)
 
