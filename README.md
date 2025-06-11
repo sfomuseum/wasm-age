@@ -43,7 +43,7 @@ If you click on the ![](docs/images/icon-eye.svg) icon you can see the text you'
 
 ![](docs/images/wasm-age-encrypt-plaintext.png)
 
-_Click the [NO-EYEBALL] icon to hide the text again._
+_Click the ![](docs/images/icon-eye-slash.svg) icon to hide the text again._
 
 Add a password (key) to encrypt the content.
 
@@ -53,17 +53,17 @@ When you click the `Encrypt` button your text will be encrypted using `age` WebA
 
 ![](docs/images/wasm-age-encrypted.png)
 
-If you click the [QR-CODE] icon the encrypted content will be encoded in a QR code.
+If you click the ![](docs/images/icon-qrcode.svg) icon the encrypted content will be encoded in a QR code.
 
 ![](docs/images/wasm-age-encrypted-qr.png)
 
-If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a [CLIPBOARD] icon which will allow you to copy the encrypted data to your computer's clipboard.
+If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a ![](docs/images/icon-clipboard.svg) icon which will allow you to copy the encrypted data to your computer's clipboard.
 
 Clicking the "Decrypt" button (at the top of the page) will display the new tab for decypted `age`-encoded data.
 
 ![](docs/images/wasm-age-decrypt.png)
 
-You can enter text manually or by scanning for data encoded in a QR code by clicking the [SCAN-QR-CODE] icon. If you click the [SCAN-QR-CODE] icon a new dialog window will be open showing you what your camera's video feed as well as any QR codes that are located in the stream. 
+You can enter text manually or by scanning for data encoded in a QR code by clicking the ![](docs/images/icon-qrcode-scan.svg) icon. If you click the ![](docs/images/icon-qrcode-scan.svg) icon a new dialog window will be open showing you what your camera's video feed as well as any QR codes that are located in the stream. 
 
 ![](docs/images/wasm-age-decrypt-qr.png)
 
@@ -77,11 +77,11 @@ When you click the `Decrypt` button the data will be decrypted using the `age` W
 
 ![](docs/images/wasm-age-decrypted-plaintext.png)
 
-By default the unencypted data is obscured but if you click the [EYEBALL] icon you can see the unencypted text.
+By default the unencypted data is obscured but if you click the ![](docs/images/icon-eye.svg) icon you can see the unencypted text.
 
-_Click the [NO-EYEBALL] icon to hide the text again._
+_Click the ![](docs/images/icon-eye-slash.svg) icon to hide the text again._
 
-If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a [CLIPBOARD] icon which will allow you to copy the unencrypted data to your computer's clipboard.
+If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a ![](docs/images/icon-clipboard.svg) icon which will allow you to copy the unencrypted data to your computer's clipboard.
 
 ## Offline support
 
