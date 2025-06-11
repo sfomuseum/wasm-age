@@ -72,9 +72,7 @@ When you click the `Decrypt` button the data will be decrypted using the `age` W
 
 By default the unencypted data is obscured but if you click the ![](docs/images/icon-eye.svg) icon you can see the unencypted text. Click the ![](docs/images/icon-eye-slash.svg) icon to hide the text again.
 
-If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a ![](docs/images/icon-clipboard.svg) icon which will allow you to copy the unencrypted data to your computer's clipboard.
-
-You can also download the decrypted text to a file on the local device by clicking the ![](docs/images/icon-arrow-down.svg) icon.
+If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a ![](docs/images/icon-clipboard.svg) icon which will allow you to copy the unencrypted data to your computer's clipboard. You can also download the decrypted text to a file on the local device by clicking the ![](docs/images/icon-arrow-down.svg) icon.
 
 ## Offline support
 
