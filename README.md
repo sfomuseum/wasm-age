@@ -10,6 +10,8 @@ Did I mention that was experimental? As in it _seems_ to work but I haven't fini
 
 Currently this application only support encrypting and decrypting strings using `age`'s "scrypt" identity (passwords).
 
+It also expects to work with plain-text values. Specifically all uses of the `File` web APIs to read or write local files assume plain-text data.
+
 ## Building
 
 There is a pre-built `age.wasm` binary in the [www/wasm](www/wasm) folder but if you need or want to rebuilt it the easiest thing is to use the handy `wasmjs` Makefile target:
@@ -73,10 +75,6 @@ By default the unencypted data is obscured but if you click the ![](docs/images/
 
 If your web browser supports the [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard) there will also be a ![](docs/images/icon-clipboard.svg) icon which will allow you to copy the unencrypted data to your computer's clipboard.
 
-## Mobile
-
-The application is responsive and adjusts to mobile devices.
-
 ## Offline support
 
 If the `<body>` element in the main `index.html` contains an "offline" attribute then support for registering the tool as an offline application will be initialized. For example:
@@ -108,6 +106,10 @@ The simplest way to disable offline support is to remove the "offline" attribute
 ![](docs/images/wasm-age-purge.png)
 
 If you need to purge the (offline) application cache click the "purge offline cache" link next to the ![](docs/images/icon-recycle.svg) icon at the bottom of the page.
+
+## Mobile
+
+The application is responsive and adjusts to mobile devices.
 
 ## See also
 
